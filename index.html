@@ -1,0 +1,278 @@
+<title>خضاركم</title>
+<style>
+/* Layout concept: a full-bleed photo hero (organized produce market) with
+   a brand-tinted gradient for legible white text, giving way to three
+   asymmetric "produce crate" panels for the category highlights. */
+:root{
+  --yellow:#F7C331;
+  --yellow-deep:#E2A61A;
+  --green-deep:#1F5C33;
+  --green-mid:#4C9A3C;
+  --green-light:#86D44C;
+  --clay:#E0472A;
+  --teal:#2E8B8B;
+  --crate:#14170F;
+  --bg:#F6FAEF;
+  --bg-panel:#FFFFFF;
+  --fg:#15210F;
+  --fg-soft:#55614C;
+  --line:#DCE6D1;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --yellow:#F2BC2E; --yellow-deep:#C98E16;
+    --green-deep:#A9DDB9; --green-mid:#7CC768; --green-light:#9CE858;
+    --clay:#F07155; --teal:#5BB5B5; --crate:#050703;
+    --bg:#0B0F08; --bg-panel:#121A0D;
+    --fg:#EFF5E6; --fg-soft:#B6C2A8; --line:#28331F;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --yellow:#F2BC2E; --yellow-deep:#C98E16;
+  --green-deep:#A9DDB9; --green-mid:#7CC768; --green-light:#9CE858;
+  --clay:#F07155; --teal:#5BB5B5; --crate:#050703;
+  --bg:#0B0F08; --bg-panel:#121A0D;
+  --fg:#EFF5E6; --fg-soft:#B6C2A8; --line:#28331F;
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  direction:rtl;
+  font-family:'Cairo', sans-serif;
+  overflow-x:hidden;
+}
+img{max-width:100%;}
+h1,h2,h3{margin:0; text-wrap:balance;}
+p{margin:0;}
+.display{font-family:'Lalezar', 'Cairo', sans-serif; font-weight:400;}
+
+.wrap{max-width:1080px; margin:0 auto; padding-inline:20px;}
+
+/* ---------------- HERO ---------------- */
+.hero{
+  position:relative;
+  padding-block: 44px 56px;
+  min-height:min(720px, 92vh);
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+  text-align:center;
+}
+.hero-photo{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  z-index:0; background:linear-gradient(135deg, var(--green-light), var(--yellow));
+}
+.hero-overlay{
+  position:absolute; inset:0; z-index:0;
+  /* a light edge vignette only — keeps the photo itself clearly visible */
+  background:
+    linear-gradient(180deg, rgba(5,10,4,.38) 0%, rgba(5,10,4,0) 22%, rgba(5,10,4,0) 70%, rgba(5,10,4,.5) 100%);
+}
+
+.hero-inner{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:20px; }
+
+.hero-scrim{
+  display:flex; flex-direction:column; align-items:center; gap:20px;
+  background:rgba(8,16,7,.46); backdrop-filter:blur(10px) saturate(1.1);
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:28px;
+  padding:clamp(28px,5vw,48px) clamp(22px,6vw,56px);
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.55);
+}
+
+.logo-lockup{ width:min(230px, 56vw); height:auto; filter:drop-shadow(0 8px 18px rgba(0,0,0,.4)); }
+
+.badge-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; }
+.pin-badge{
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,.14); backdrop-filter:blur(6px);
+  border:1.5px solid rgba(255,255,255,.4); color:#fff;
+  padding:8px 18px; border-radius:999px; font-weight:700; font-size:14.5px;
+}
+.pin-badge svg{ width:16px; height:16px; stroke:var(--yellow); flex-shrink:0; }
+
+.headline{
+  font-size:clamp(50px, 11vw, 92px);
+  line-height:.95;
+  color:#FFFCF2;
+  letter-spacing:.01em;
+  text-shadow:0 6px 24px rgba(0,0,0,.4);
+}
+.subline{
+  font-size:clamp(20px, 4vw, 28px);
+  font-weight:700;
+  color:#FFFCF2;
+  max-width:22ch;
+  text-shadow:0 2px 12px rgba(0,0,0,.35);
+}
+.subline b{ color:var(--yellow); font-weight:700; }
+
+.tagline{
+  font-size:16px; font-weight:600; color:#fff;
+  background:rgba(255,255,255,.14); backdrop-filter:blur(6px);
+  border:1.5px dashed rgba(255,255,255,.45);
+  padding:12px 22px; border-radius:16px; max-width:34ch;
+}
+
+/* ---------------- CATEGORIES ---------------- */
+.cats{ padding-block: 12px 64px; }
+.cats-head{ text-align:center; margin-bottom:34px; display:flex; flex-direction:column; gap:10px; align-items:center; }
+.cats-head h2{ font-family:'Lalezar','Cairo',sans-serif; font-weight:400; font-size:clamp(30px,5vw,42px); color:var(--green-deep); }
+.cats-head p{ color:var(--fg-soft); font-size:15.5px; max-width:42ch; }
+
+.crate-row{
+  display:grid; grid-template-columns: 1.1fr 1fr 1fr; gap:20px;
+  align-items:stretch;
+}
+.crate{
+  border-radius:22px; padding:26px 22px 22px;
+  display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px;
+  position:relative; isolation:isolate;
+  border:1.5px solid var(--line);
+}
+.crate .illus{ width:120px; height:120px; }
+.crate h3{ font-size:21px; color:var(--fg); }
+.crate p{ font-size:13.5px; color:var(--fg-soft); line-height:1.5; }
+.crate .tag{
+  font-size:12px; font-weight:800; padding:4px 12px; border-radius:999px;
+  position:absolute; top:16px; inset-inline-start:16px;
+}
+
+.crate-produce{ background:linear-gradient(180deg, color-mix(in srgb, var(--green-light) 18%, var(--bg-panel)), var(--bg-panel)); }
+.crate-produce .tag{ background:color-mix(in srgb, var(--green-light) 30%, var(--bg-panel)); color:var(--green-deep); }
+.crate-fish{ background:linear-gradient(180deg, color-mix(in srgb, var(--teal) 16%, var(--bg-panel)), var(--bg-panel)); margin-top:26px; }
+.crate-fish .tag{ background:color-mix(in srgb, var(--teal) 28%, var(--bg-panel)); color:var(--teal); }
+.crate-meat{ background:linear-gradient(180deg, color-mix(in srgb, var(--clay) 16%, var(--bg-panel)), var(--bg-panel)); }
+.crate-meat .tag{ background:color-mix(in srgb, var(--clay) 26%, var(--bg-panel)); color:var(--clay); }
+
+.more-row{
+  margin-top:30px; display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px;
+  font-size:14px; color:var(--fg-soft);
+}
+.more-row .chip{
+  background:var(--bg-panel); border:1px solid var(--line); border-radius:999px;
+  padding:5px 14px; font-weight:700; color:var(--fg);
+}
+
+/* ---------------- FOOTER ---------------- */
+footer{
+  border-top:1.5px solid var(--line);
+  padding-block:34px;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  text-align:center;
+}
+.foot-logo{ width:54px; height:54px; }
+footer .addr{ font-weight:700; font-size:14.5px; color:var(--fg); }
+footer .copy{ font-size:12.5px; color:var(--fg-soft); }
+
+/* entrance */
+.enter{ opacity:0; transform:translateY(14px); animation:rise .7s ease forwards; }
+.enter-1{ animation-delay:.05s; }
+.enter-2{ animation-delay:.2s; }
+.enter-3{ animation-delay:.35s; }
+.enter-4{ animation-delay:.48s; }
+.enter-5{ animation-delay:.6s; }
+@keyframes rise{ to{ opacity:1; transform:translateY(0); } }
+@media (prefers-reduced-motion: reduce){ .enter{ opacity:1; transform:none; animation:none; } }
+
+@media (max-width: 760px){
+  .crate-row{ grid-template-columns:1fr; }
+  .crate-fish{ margin-top:0; }
+}
+</style>
+
+<div dir="rtl" lang="ar">
+
+<section class="hero">
+  <img class="hero-photo" src="images/market-produce.jpg" alt="سوق خضر وفواكه منظم"
+       onerror="this.style.display='none'">
+  <span class="hero-overlay"></span>
+  <div class="wrap hero-inner">
+    <div class="hero-scrim">
+      <img class="logo-lockup enter enter-1" src="images/logo-lockup.png" alt="خضاركم">
+
+      <div class="badge-row enter enter-2">
+        <span class="pin-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-7.2 8-13a8 8 0 1 0-16 0c0 5.8 8 13 8 13Z"/><circle cx="12" cy="9" r="3"/></svg>
+          تجزئة المغرب الجديد، العرائش
+        </span>
+      </div>
+
+      <h1 class="display headline enter enter-3">قريباً</h1>
+      <p class="subline enter enter-3">خضاركم قريبين <b>فالعرايش</b></p>
+
+      <p class="tagline enter enter-4">"كنرخّص الأثمان وكنوصل بالمجان"</p>
+    </div>
+  </div>
+</section>
+
+<section class="cats wrap">
+  <div class="cats-head enter enter-5">
+    <h2>شنو غادي تلقاو</h2>
+    <p>منتجات طازجة كل يوم، مختارة بعناية من السوق مباشرة لعندكم</p>
+  </div>
+
+  <div class="crate-row">
+    <div class="crate crate-produce">
+      <span class="tag">الأكثر طلباً</span>
+      <svg class="illus" viewBox="0 0 120 120" fill="none">
+        <ellipse cx="60" cy="100" rx="46" ry="8" fill="var(--green-deep)" opacity=".12"/>
+        <path d="M34 92c-4-26 8-44 14-50 2 10-2 20 2 26 6-16 18-24 26-26-2 12-10 18-10 30 0 10-6 18-16 20H34Z" fill="var(--green-light)"/>
+        <path d="M34 92c-4-26 8-44 14-50 2 10-2 20 2 26" stroke="var(--green-deep)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <ellipse cx="46" cy="70" rx="9" ry="11" fill="#E8432F"/>
+        <path d="M46 59c0-4 3-6 6-6" stroke="var(--green-deep)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+        <ellipse cx="64" cy="76" rx="10" ry="12" fill="var(--yellow)"/>
+        <path d="M64 64c-1-4 2-7 5-8" stroke="var(--green-deep)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+        <path d="M78 60c4-8 5-16 4-22 5 3 9 11 8 20-1 7-5 12-10 14-3-3-3-8-2-12Z" fill="#E8432F"/>
+      </svg>
+      <h3>خضر وفواكه</h3>
+      <p>طماطم، بطاطا، تفاح، موز... طازة كل صباح من السوق</p>
+    </div>
+
+    <div class="crate crate-fish">
+      <span class="tag">طري يومياً</span>
+      <svg class="illus" viewBox="0 0 120 120" fill="none">
+        <ellipse cx="60" cy="108" rx="40" ry="6" fill="var(--teal)" opacity=".12"/>
+        <path d="M22 62c14-16 34-24 52-20 10 2 18 10 20 20-2 10-10 18-20 20-18 4-38-4-52-20Z" fill="var(--teal)"/>
+        <path d="M22 62 8 48l6 14-6 14 14-14Z" fill="var(--teal)"/>
+        <circle cx="68" cy="55" r="3.4" fill="#fff"/>
+        <circle cx="69" cy="55" r="1.6" fill="var(--green-deep)"/>
+        <path d="M40 54c3 2 3 6 0 8M52 52c3 2 3 8 0 10M64 51c3 2 3 10 0 12" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+        <path d="M30 70c6 4 14 7 22 8" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".4"/>
+      </svg>
+      <h3>سمك</h3>
+      <p>سردين، قاروص، جمبري... من الميناء مباشرة لطبقكم</p>
+    </div>
+
+    <div class="crate crate-meat">
+      <span class="tag">جودة مضمونة</span>
+      <svg class="illus" viewBox="0 0 120 120" fill="none">
+        <ellipse cx="60" cy="104" rx="38" ry="6" fill="var(--clay)" opacity=".12"/>
+        <path d="M46 30c16-6 32 2 36 16 3 12-2 24-14 30-4-6-2-14 2-18-8 2-16-2-20-10-6 2-12 0-16-6 4-6 8-10 12-12Z" fill="var(--clay)"/>
+        <path d="M30 56c-6 6-10 14-8 22 2 8 10 12 18 10 6-2 10-8 9-14" stroke="var(--clay)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <circle cx="33" cy="80" r="5" fill="none" stroke="var(--clay)" stroke-width="2.4"/>
+        <path d="M58 46c4 4 4 10 1 14M68 50c3 4 3 9 1 12" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+      </svg>
+      <h3>لحوم</h3>
+      <p>لحم بقري وغنمي ودجاج، مقطع طازة حسب الطلب</p>
+    </div>
+  </div>
+
+  <div class="more-row">
+    <span>وقريباً أيضاً:</span>
+    <span class="chip">أعشاب</span>
+    <span class="chip">أجبان وحليب</span>
+    <span class="chip">بهارات</span>
+  </div>
+</section>
+
+<footer>
+  <img class="foot-logo" src="images/logo-icon.png" alt="خضاركم">
+  <p class="addr">تجزئة المغرب الجديد، العرائش</p>
+  <p class="copy">© 2026 khddar.com — قريباً</p>
+</footer>
+
+</div>
